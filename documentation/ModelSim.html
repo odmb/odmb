@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ODMB at UCSB</title>
+    <link href="../main.css" rel="stylesheet" type="text/css" />
+    <meta name="Description" content="ODMB at a glance and most important links" />
+    <meta name="Keywords" content="ODMB,UCSB,CMS,CERN,ME11,CSC" />
+    <link rel="icon" type="image/png" href="../images/odmb_icon.ico" />
+  </head>
+  
+  <body onload="reload()">
+    <iframe id="headerframe" src="../header.html"></iframe>
+    
+    <script type="text/javascript">
+      function reload(){
+      var frame = document.getElementById("headerframe").contentDocument;
+      frame.getElementById("odmbnav").className = "inactive";
+      frame.getElementById("docunav").className = "active";
+      frame.getElementById("firmnav").className = "inactive";
+      frame.getElementById("hardnav").className = "inactive";
+      frame.getElementById("softnav").className = "inactive";
+      frame.getElementById("othenav").className = "inactive";
+      frame.contentDocument.location.reload(true);
+      }
+    </script>
+    
+    <div class="main">
+      <div id="sidebar" class="leftColumn">
+	<iframe id="sidebarframe" src="sidebar.html"></iframe>
+      </div>
+      
+      <div class="rightColumn">
+	<h1>General Information</h1>
+	<p>Create two directories, $ISE_DIR and $MODELSIM_DIR, in your local machine (you'll need ~15 GB free). 
+	Add the following export commands to your .bashrc:<br><br>
+
+	<FONT FACE="courier">export XILINXD_LICENSE_FILE= </FONT>[Ask Manuel]<br>
+	<FONT FACE="courier">export LM_LICENSE_FILE= </FONT>[Ask Manuel]<br>
+	<FONT FACE="courier">export LD_LIBRARY_PATH=/usr/lib/:${LD_LIBRARY_PATH}<br>
+	export LD_LIBRARY_PATH=/usr/lib32/:${LD_LIBRARY_PATH}<br>
+	export CVS_RSH=ssh<br>
+	export CVSROOT=:ext:${USER}@cmscvs.cern.ch:/local/reps/CMSSW<br>
+	export PATH=$MODELSIM_DIR/modeltech/bin:$PATH<br>
+	export MGC_HOME=$MODELSIM_DIR</FONT><br><br>
+
+	The fourth line may be unnecessary (and probably non-existent for 32-bit operating systems).
+	</p>
+
+	<h1>Installation of ISE</h1>
+	Type the following into your terminal: <br><br>
+
+	<FONT FACE="courier">cd $ISE_DIR.</FONT><br>
+	<FONT FACE="courier">scp -r $USER@gluon.physics.ucsb.edu:/data/programs/install_files/ISE_12.3.tar</FONT><br>
+	<FONT FACE="courier">tar xvf ISE_12.3.tar</FONT><br>
+	<FONT FACE="courier">cd Xilinx_ISE_DS_Lin_12.3_M.70d.1.0</FONT><br>
+	<FONT FACE="courier">./xsetup </FONT> #Then follow the instructions in the GUI installer<br>
+
+	<h1>Installation of ModelSim</h1>
+	Type the following into your terminal (in 64-bit Ubuntu, you will need to make sure the package "ia32-libs" is installed):<br><br>
+
+	<FONT FACE="courier">cd $MODEL_SIM</FONT><br>
+	<FONT FACE="courier">scp -r &lt;user&gt;@gluon.physics.ucsb.edu:/data/programs/install_files/modelsim .</FONT><br>
+	<FONT FACE="courier">cd modelsim</FONT><br>
+	<FONT FACE="courier">./install.linux </FONT>#Make sure you check all folders when prompted<br>
+        <FONT FACE="courier">mkdir -p /data/modelsim/; cd /data/modelsim </FONT>#You might need sudo privileges to write there<br>
+        <FONT FACE="courier">scp -r $USER@gluon.physics.ucsb.edu:/data/modelsim/compiled_libs . </FONT><br>
+        <FONT FACE="courier">sudo chmod -R 755 *</FONT><br>
+	</ol>
+
+	<h1>Simulation of the ODMB firmware</h1>
+	<ol>
+	  <li><FONT FACE="courier">cvs co -d odmb_ucsb_v2 UserCode/manuelf/vhdl/odmb_ucsb_v2</FONT>
+	  #Checks out the latest ODMB firmware</li>
+	  <li><FONT FACE="courier">cd odmb_ucsb_v2</FONT></li>
+	  <li>Open <FONT FACE="courier">work/_info</FONT> and delete everything after the fifth line (which should just be 
+	  the letter &quot;d&quot;).</li>
+	  <li>Open ModelSim with the command "vsim"</li>
+	  <li>Go to "File &gt; Open Project" and open the file odmb_ucsb_v2_linux.mpf</li>
+	  <li>Select the VME commands to run over in the file <FONT FACE="courier">source/modelsim/file_handler_linux.v</FONT></li>
+	  <li>Select "Compile &gt; Compile Order - Auto Generate"</li>
+	  <li>Double-click on source/modelsim/run_simulation in the Project tab</li>
+	  <li>In the sim window, right click on the modules you want (typically odmb_v6_v2_TOP, MBV, MBC and a few others),
+	  and select "Add to &gt; Wave &gt; All items in region." </li>
+	  <li>Set Default Run to 1 ms in "Simulate &gt; Runtime Options", and select "Simulate &gt; Run 100"</li>
+	  <li>In the wave window you see the full range typing F, and zoon on the cursor with C</li>
+	</ol>
+	<br /><br />
+      </div>
+    </div>
+    <iframe id="footerframe" src="../footer.html"></iframe>
+  </body>
+</html>
