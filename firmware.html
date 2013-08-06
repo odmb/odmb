@@ -53,8 +53,24 @@
       
       <div class="rightColumn">
 	<h1> Block diagram of the ODMB firmware</h1>
-        <br /> <br />
+        <br /> 
 	<img  style="padding-left:0px" src="images/odmb_firmware_diagram.png" alt="ME11 boards" width="645" />
+	<br /><br /><br />
+
+	<h1> Obtaining the ODMB firmware</h1>
+	<ol>
+	  <li> <a href="documentation/git.html">Set up git</a>.</li>
+	  <li><FONT FACE="courier">git clone git@github.com/odmb/odmb_ucsb_v2.git</FONT>
+	  # Checks out the latest ODMB firmware</li>
+	  <li><FONT FACE="courier">cd odmb_ucsb_v2</FONT></li>
+	  <li>Open <FONT FACE="courier">work/_info</FONT> and delete everything after the fifth line (which should just be 
+	  the letter &quot;d&quot;). It might already be blank.</li>
+	  <li><FONT FACE="courier">git update-index --assume-unchanged work/_info </FONT>
+	   # Prevents from committing changes to work/_info</li>
+	  <li>For information about synthesizing or simulating the firmware, go 
+	    <a href="documentation/ModelSim.html">here</a>.</li>
+	</ol>
+	
 	<br /><br /><br /><br />
       </div>
     </div>

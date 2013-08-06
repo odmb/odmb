@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ODMB at UCSB</title>
+    <link href="../main.css" rel="stylesheet" type="text/css" />
+    <meta name="Description" content="ODMB at a glance and most important links" />
+    <meta name="Keywords" content="ODMB,UCSB,CMS,CERN,ME11,CSC" />
+    <link rel="icon" type="image/png" href="../images/odmb_icon.ico" />
+  </head>
+  
+  <body onload="reload()">
+    <iframe id="headerframe" src="../header.html"></iframe>
+    
+    <script type="text/javascript">
+      function reload(){
+      var frame = document.getElementById("headerframe").contentDocument;
+      frame.getElementById("odmbnav").className = "inactive";
+      frame.getElementById("docunav").className = "active";
+      frame.getElementById("firmnav").className = "inactive";
+      frame.getElementById("hardnav").className = "inactive";
+      frame.getElementById("softnav").className = "inactive";
+      frame.getElementById("othenav").className = "inactive";
+      frame.contentDocument.location.reload(true);
+      }
+    </script>
+    
+    <div class="main">
+      <div id="sidebar" class="leftColumn">
+	<iframe id="sidebarframe" src="sidebar.html"></iframe>
+      </div>
+      
+      <div class="rightColumn">
+	<h1>Set up git</h1>
+	<ol>
+	  <li>In Mac or Windows, install git from 
+	    <a href="http://git-scm.com/downloads">here</a>.</li>
+	  <li> In SL5, type these commands: <br>
+	<FONT FACE="courier">
+	  wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.i386.rpm<br>
+	  sudo rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt<br>
+	  sudo rpm -K rpmforge-release-0.5.2-2.el5.rf.i386.rpm<br>
+	  sudo rpm -i rpmforge-release-0.5.2-2.el5.rf.i386.rpm<br>
+	  sudo yum install git<br>
+	  </FONT></li>
+	  <li>Create a <a href="https://github.com/">GitHub</a> account and ask
+		Manuel or Frank to add you to the <a href="https://github.com/odmb">ODMB organization</a>.</li>
+	  <li>Set up an <a href="https://help.github.com/articles/generating-ssh-keys">
+	      SSH key</a> (you will need one per user/per machine).</li>
+	  <li>Set up your name and email in this machine: <br>
+	<FONT FACE="courier">
+	  git config --global user.name "XXX"<br>
+	  git config --global user.email "xxx@xxx.xxx"<br>
+	  </FONT></li>
+	  <li>Set up the following useful aliases: <br>
+	<FONT FACE="courier">
+	git config --global alias.co checkout              <br>
+	git config --global alias.ci 'commit -a -m'	   <br>
+	git config --global alias.pu 'push origin master'  <br>
+	git config --global alias.up 'pull origin master'  <br>
+	git config --global alias.unstage 'reset HEAD'	<br>
+	  </FONT></li>
+	</ol>
+	<h1>Obtaining the ODMB firmware</h1>
+	<ol>
+	  <li><FONT FACE="courier">git clone git@github.com/odmb/odmb_ucsb_v2.git</FONT>
+	  # Checks out the latest ODMB firmware</li>
+	  <li><FONT FACE="courier">cd odmb_ucsb_v2</FONT></li>
+	  <li>Open <FONT FACE="courier">work/_info</FONT> and delete everything after the fifth line (which should just be 
+	  the letter &quot;d&quot;). It might already be blank.</li>
+	  <li><FONT FACE="courier">git update-index --assume-unchanged work/_info </FONT>
+	   # Prevents from committing changes to work/_info</li>
+	  <li>For information about synthesizing or simulating the firmware, go 
+	    <a href="documentation/ModelSim.html">here</a>.</li>
+	</ol>
+	<h1>Example: new repository</h1>
+	  First, create the repository in GitHub. Then, a typical sequence of commands would be:<br><br>
+	<FONT FACE="courier">
+		NEW_REPO=XX   <br>
+		mkdir $NEW_REPO   <br>
+		cd $NEW_REPO   <br>
+		git init   <br>
+		git remote add origin git@github.com:user/NEW_REPO.git   <br>
+		#<MODIFICATIONS>#   <br>
+		git add .   <br>
+		git ci "MODIFICATIONS"   <br>
+		git pu   <br>
+		git tag -a V00-00 -m "Comment"   <br>
+		git push origin --tags   <br>
+	  </FONT>
+	<br /><br />
+      </div>
+    </div>
+    <iframe id="footerframe" src="../footer.html"></iframe>
+  </body>
+</html>
