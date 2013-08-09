@@ -28,7 +28,7 @@ iframe#headerframe{
 }
 
 iframe#footerframe{
-    height: 90px;
+    height: 103px;
 }
 
 .header{
@@ -126,6 +126,12 @@ iframe#footerframe{
     float: left;
 }
 
+.shortColumn{
+    width: 215px;
+    padding-right: 6px;
+    float: left;
+}
+
 .rightColumn{
     width: 645px;
     float: left;
@@ -139,10 +145,11 @@ iframe#footerframe{
 }
 
 .footer{
-    height: 50px;
+    height: 100px;
     background-color:#000000;
     padding-top: 0px;
-    color: #CCCCCC;
+    color: #000000;
+    #color: #CCCCCC;
 }
 
 .footer-inner{
