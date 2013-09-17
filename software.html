@@ -38,29 +38,32 @@
       </div>
       
       <div class="rightColumn">
-	<h1>Installing TriDAS</h1>
-	<p>In order to be able to modify any of the code that generates the odmbdev page, one
-	first needs to check out TriDAS from CVS. Note that XDAQ is required to actually run
-	the odmbdev script, so it is usually preferable to check it out into a directory on
-	wimp.physics.ucsb.edu. After logging in to wimp.physics.ucsb.edu, create a personal
-	directory with "mkdir my_dir_name" and switch into it with "cd my_dir_name". Put the
-	script <a href="software/initial_setup.sh">initial_setup.sh</a> in this directory. In it, replace
-	all instances of "username" and "my_dir_name" with appropriate values. Running this
-	script will check out and compile the TriDAS repository for the first time. To pull
-	down updates from CVS, use the script <a href="software/get_updates.sh">get_updates.sh</a>. This,
-	too, should be placed in the directory "my_dir_name" and you will need to make the
-	appropriate replacements of "username" and "my_dir_name" in the script before
-	using.</p>
-	
-	<h1>Generating the odmbdev Page</h1>
-	<p>After checking out the repository (see above), one can edit the code in the
-	TriDAS/emu/odmbdev directory. After making any changes, you will need to recompile the
-	code with "compile.sh", found in TriDAS/emu. Once this is done, you are ready to
-	produce the odmbdev page. First, to prevent conflicts, use "ps aux | grep xdaq" to
-	check that nobody else is running the script. If not, go into the odmbdev directory
-	(note, the following step only works if you are in the odmbdev directory!) and enter
-	the command "./script/startME11Dev.sh". This will
-	generate <a href="http://wimp.physics.ucsb.edu:9991/urn:xdaq-application:lid=20/">the odmbdev page</a>.</p>
+	<h1>Setting up odmbdev</h1>
+	<p>The custom UCSB ODMB software runs on the standard CMS software in TriDAS/emu.
+	This sofware is checked out with the command <br>
+	<FONT FACE="courier"> svn co svn+ssh://${USER}@svn.cern.ch/reps/emu/trunk/TriDAS</FONT> <br>
+	but this requires privileges and a special compilation. 
+	Thus, you can just copy Frank's version in <FONT FACE="courier"> /home/odmb/fg/TriDAS</FONT>
+	to your area.<br /><br />
+
+	Then, in the folder <FONT FACE="courier">TriDAS/emu</FONT>, type the following:<br />
+	<FONT FACE="courier">
+  	git clone git@github.com:me11/odmbdev.git <br>
+  	cd odmbdev <br>
+  	git update-index --assume-unchanged script/emuslice06-kill-run-and-tail <br>
+  	git update-index --assume-unchanged script/kill-run-and-tail <br>
+  	git update-index --assume-unchanged script/startwimp.sh <br>
+  	git update-index --assume-unchanged script/startme11.sh <br>
+  	git update-index --assume-unchanged script/startslice06.sh <br>
+  	git update-index --assume-unchanged xml/EMUSlice06Dev.xml <br>
+  	git update-index --assume-unchanged xml/EmuME11Dev.xml <br>
+  	git update-index --assume-unchanged xml/EmuWimpDev.xml <br>
+  	git update-index --assume-unchanged xml/crate-ucsb.xml <br>
+	find . -type f -print0 | xargs -0 sed -i 's/9991/9998/g' <br>
+	</FONT>
+	In the last command, substitute 9998 for your port number.
+	The FONT FACE="courier">--assume-unchanged</FONT> commands ensure that you do not commit the changed port to git.
+	</p>
 	<br /><br />
       </div>
     </div>
