@@ -46,7 +46,7 @@
 	Thus, you can just copy Frank's version in <FONT FACE="courier"> /home/odmb/fg/TriDAS</FONT>
 	to your area.<br /><br />
 
-	Then, in the folder <FONT FACE="courier">TriDAS/emu</FONT>, type the following:<br />
+	Then, in the folder <FONT FACE="courier">TriDAS/emu</FONT>, type the following:<br /><br>
 	<FONT FACE="courier">
   	git clone git@github.com:me11/odmbdev.git <br>
   	cd odmbdev <br>
@@ -60,9 +60,9 @@
   	git update-index --assume-unchanged xml/EmuWimpDev.xml <br>
   	git update-index --assume-unchanged xml/crate-ucsb.xml <br>
 	find . -type f -print0 | xargs -0 sed -i 's/9991/9998/g' <br>
-	</FONT>
+	</FONT> <br>
 	In the last command, substitute 9998 for your port number.
-	The FONT FACE="courier">--assume-unchanged</FONT> commands ensure that you do not commit the changed port to git.
+	The <FONT FACE="courier">--assume-unchanged</FONT> commands ensure that you do not commit the changed port to git.
 	</p>
 	<br /><br />
       </div>
