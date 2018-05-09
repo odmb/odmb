@@ -29,34 +29,113 @@
 	<iframe id="sidebarframe" src="sidebar.html"></iframe>
       </div>
       <div class="rightColumn">
-	<h1> ME1/1 upgrade</h1>
-	<p>Replacement of the current cathode front-end boards is proposed for Phase 1 by
-	  “digital” DCFEB boards that flash-digitize every channel rather than using a custom
-	  analog storage pipeline (SCA chips). The smaller size of the DCFEB boards should
-	  allow us to place seven of these boards on each ME1/1 chamber, and thereby recover
-	  muon trigger capability in the rapidity range 2.1 to 2.4. In order to read out the
-	  new DCFEB optical links, their trigger and readout boards (TMB and DMB) will need
-	  revision. The CFEB, TMB, and DMB cards currently operating on ME1/1 chambers will be
-	  recycled by moving them to the lower-rate ME4/2 chambers.</p>
-	
-	<p>It is proposed to upgrade the Muon Port Cards with high speed optical links and
-	  FPGAs, since they are currently the major CSC trigger data bottleneck, allowing only
-	  three muon stubs to be transmitted per crossing per 60-degree trigger sector. The
-	  Muon Port Cards send their data over optical links to the CSC Track Finder’s Sector
-	  Processor cards, so they should be upgraded at the same time, i.e. for Phase 1
-	  (described in the TriDas section of this proposal).</p>
-	
-	<p>It is proposed to upgrade the ALCT mezzanine cards for Phase 1. These cards are the
-	  largest source of deadtime to the entire CMS experiment caused by periodic resets of
-	  neutron single-event upsets (SEUs). Moreover, the position resolution of the ALCT
-	  trigger can be greatly improved to match the η resolution given by the Phase 1 pixel
-	  trigger upgrade (described in the TriDas section of this proposal), and significantly
-	  better time resolution can be achieved in order to implement a “slow muon” type
-	  trigger for heavy stable charged particles.</p>  <br /><br />
+	<h1>Installing ModelSim and ISE in linux</h1>
+        <p>We will use UCSB online licenses to run these programs, and these can only be accessed from the UCSB
+          campus. Thus, it will be necessary to install the
+          <a href="http://www.ets.ucsb.edu/services/campus-vpn/get-connected">UCSB VPN</a>. Each time before running these
+          programs off-campus you will need connect to the VPN with your UCSB NetID. </p>
 
-	  <img  style="padding-left:0px" src="../images/me11_layout_130401.png" alt="ME11 layout" width="645" />
-	  <br /><br /> <br /> <br />
+        <p>These programs are in linux, which can be run on Mac and Windows with a virtual machine. See instructions below for
+          the installation of VirtualBox, a free virtual machine.</p>
+        
+	<p>Create two directories, $ISE_DIR and $MODELSIM_DIR, in your local machine (you'll need ~20 GB free). 
+	Add the following export commands to your .bashrc:<br><br>
 
+	<FONT FACE="courier">export XILINXD_LICENSE_FILE= </FONT><b>[Ask Alex Dorsett or Hualin Mei]</b><br>
+	<FONT FACE="courier">export LM_LICENSE_FILE= </FONT><b>[Ask Alex Dorsett or Hualin Mei]</b><br>
+	<FONT FACE="courier">export LD_LIBRARY_PATH=/usr/lib/:${LD_LIBRARY_PATH}<br>
+	export LD_LIBRARY_PATH=/usr/lib32/:${LD_LIBRARY_PATH}<br>
+	export CVS_RSH=ssh<br>
+	export CVSROOT=:ext:${USER}@cmscvs.cern.ch:/local/reps/CMSSW<br>
+	export PATH=$MODELSIM_DIR/modeltech/bin:$PATH<br>
+	export MGC_HOME=$MODELSIM_DIR</FONT><br><br>
+
+	The fourth line may be unnecessary (and probably non-existent for 32-bit operating systems). You might also need to run
+        the following lines in the terminal in 64-bit Ubuntu 16.04:<br><br>
+
+        <FONT FACE="courier">sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6<br>
+        sudo apt-get install libxtst6:i386 libxi6:i386<br>
+        sudo apt-get install libxft2:i386 libxft-dev:i386<br>
+        sudo apt-get install ubuntu-desktop</FONT><br>
+        
+        </p>
+
+	<h1>Installation of VirtualBox to run linux on macOS</h1>
+        These programs only run on linux (and Windows), so if you have a Mac you will need to have a linux partition or run it
+        virtually. The latter is slightly slower but vastly more convenient if you are used to using macOS in your daily
+        life. The instructions below are based on this <a href="https://www.engadget.com/2009/09/07/how-to-set-up-ubuntu-linux-on-a-mac-its-easy-and-free/">website</a>
+        <ol>
+          <li> Download and install <a href="https://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-OSX.dmg">VirtualBox 5.1.22</a>. You can try with newer versions, but I stopped there since Ubuntu was crashing with 5.1.24.
+          <li> Download <a href="https://www.ubuntu.com/download/desktop">Ubuntu</a>. I stopped upgrading at 16.04.
+          <li> In VirtualBox "Settings", go to the "Storage" tab and click the CD with a "+" next to Controller IDE to
+            add a new optical drive. Click “Choose disk” and select Ubuntu’s .iso file. Click start to install Ubuntu,
+            and check "Download updates while installing” and “Install this third-party software"
+          <li> Increase the processors, RAM, and video memory that you give the virtual machine in Setting.
+            Video memory can go up to 256 MB with this command in macOS's terminal<br>
+              <FONT FACE="courier">VBoxManage modifyvm "ubuntu" --vram 256</FONT><br>
+          <li> Add a shared folder in VirtualBox to share files betwen macOS and Ubuntu.
+            <ol>
+              <li> Created a ~/Documents/ubuntu folder in macOS.
+              <li> In VirtualBox, Settings icon -> Shared Folders, added the new folder clicking on the icon with the
+                green “plus”, and setting "Auto-mount” and “Make permanent".
+              <li> Install Virtualbox guest additions for Ubuntu with the Contents/MacOS/VBoxGuestAdditions.iso file
+                inside VirtualBox.app, and load it in Ubuntu. More detailed
+                <a href="https://osquest.com/2012/11/13/tip-manually-installing-virtualbox-guest-additions/">instructions here</a>
+                if needed.
+              <li> Give yourself the appropriate permissions in a terminal inside Ubuntu<br>
+                  <FONT FACE="courier">sudo adduser $USER sfvbox</FONT><br>
+                  </ol>
+          </ol>            
+
+	<h1>Installation of Mentor Graphics ModelSim</h1>
+	Copy the ModelSim executables (691 MB) and compiled Xilinx libraries (2.1 GB) from the UCSB servers
+        (needs an HEP account) by typing the following commands in the terminal:<br><br>
+
+	<FONT FACE="courier">cd $MODEL_SIM</FONT><br>
+	<FONT FACE="courier">scp -r $USER@tau.physics.ucsb.edu:/net/cms27/cms27r0/odmb/modelsim_and_libs/ .</FONT><br>
+        <FONT FACE="courier">sudo mv data / </FONT> ## You will need sudo privileges to write there<br>
+        <FONT FACE="courier">sudo chmod -R 755 /data</FONT><br>
+	<FONT FACE="courier">cd modelsim</FONT><br>
+	<FONT FACE="courier">./install.linux </FONT> ## Install it in $MODELSIM_DIR and check all folders when prompted<br>
+
+	<h1>Installation of Xilinx ISE</h1>
+	Copy the ISE executables (6.1 GB) from the UCSB servers
+        (needs an HEP account) by typing the following commands in the terminal: <br><br>
+
+	<FONT FACE="courier">cd $ISE_DIR.</FONT><br>
+	<FONT FACE="courier" SIZE=1>scp -r $USER@tau.physics.ucsb.edu:/net/cms27/cms27r0/odmb/ise/Xilinx_ISE_DS_Lin_14.7_1015_1.tar</FONT><br>
+	<FONT FACE="courier">tar xvf Xilinx_ISE_DS_Lin_14.7_1015_1.tar</FONT><br>
+	<FONT FACE="courier">cd Xilinx_ISE_DS_Lin_14.7_1015_1</FONT><br>
+	<FONT FACE="courier">./xsetup </FONT>  ## Install it in $ISE_DIR and follow the instructions in the GUI installer<br>
+
+        <h1>Set up the ODMB firmware</h1>
+	<ol>
+	  <li><FONT FACE="courier">git clone git@github.com/odmb/odmb_ucsb_v2.git</FONT>
+	  # Checks out the latest ODMB firmware</li>
+	  <li>Open ModelSim by connecting to the VPN, opening the virtual machine, and typing "vsim" in the Ubuntu terminal.</li>
+	  <li>Go to "File &gt; Open Project" and open the file odmb_ucsb_v2_linux.mpf</li>
+	  <li>In the "Library" tab of ModelSim, right-click on "hdlmacro", "secureip", and "unisim" and select "Refresh".
+	</ol>
+
+          <h1>Simulation of the ODMB firmware</h1>
+          The simulation of the ODMB firmware uses a "test bench"
+          (<FONT FACE="courier">source/modelsim/odmb_ucsb_v2_tb.vhd</FONT>) that simulates the signals that the VME crate
+          sends the ODMB. The specific VME commands are written in text files stored in <FONT FACE="courier">commands</FONT>,
+          and the text file is specified and read by <FONT FACE="courier">source/modelsim/file_handler_linux.v</FONT>.
+          To run the firmware, do the following: <br>              
+	<ol>
+	  <li>Open ModelSim by connecting to the VPN, opening the virtual machine, and typing "vsim" in the Ubuntu terminal.</li>
+	  <li>Right-click on any file in the "Project" tab and select "Compile &gt; Compile All"</li>
+	  <li>Double-click on "run_simulation" in the "Project" tab</li>
+	  <li>In the "sim" window, select the modules you want to see the signals of and type "Ctrl + W"
+            (typically odmb_v6_v2_TOP, MBV, MBC and a few others). Alternatively, you can right-click and select
+            "Add to &gt; Wave &gt; All items in region." </li>
+	  <li>Control the run with the "simulate" buttons. Start with the button with a downwards arrow and a line. <br>
+            <img  style="padding-left:0px" src="modelsim_run.png" alt="ModelSim run" width="220" />
+	  <li>In the wave window you see the full range typing "F", and zoon on the cursor with "C"</li>
+	</ol>
+	<br /><br />
+        
       </div>
     </div>
     <iframe id="footerframe" src="../footer.html"></iframe>
